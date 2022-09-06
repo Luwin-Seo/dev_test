@@ -15,11 +15,11 @@ public class ArticleResponseDto {
     private List<String> imgs;
     private String boardName;
 
-    public ArticleResponseDto(Article article, List<String> imgs, String boardName) {
+    public ArticleResponseDto(Article article, int viewCount, List<String> imgs, String boardName) {
         this.id = article.getId();
         this.title = article.getTitle();
         this.contentHtml = article.getContentHtml();
-        this.viewCount = article.getViewCount();
+        this.viewCount = viewCount;
         this.isPinned = article.isPinned();
         this.createdDatetime = article.getCreatedDatetime();
         this.imgs = imgs;

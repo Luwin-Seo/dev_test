@@ -6,12 +6,12 @@ import com.example.dev_test.dto.ArticleResponseDto;
 import com.example.dev_test.mapper.ArticleMapper;
 import com.example.dev_test.mapper.BoardMapper;
 import com.example.dev_test.model.Article;
-import com.example.dev_test.model.Board;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.HtmlUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -30,19 +30,20 @@ public class ArticleService {
         this.bMapper = bMapper;
     }
 
-    public void insert(Long id, ArticleRequestDto requestDto) {
-        String correctedHtml = HtmlUtils.htmlUnescape(requestDto.getContent());
+    public ResponseEntity<String> insert(ArticleRequestDto requestDto) {
         Document doc = Jsoup.parse(requestDto.getContent());
         String stringifyContent = doc.text();
-        System.out.println(correctedHtml + "교정된 HTML");
         System.out.println(stringifyContent + "문자열로 전환된 HTML");
-        Article article = new Article(null, id, null,false, 0, requestDto.getTitle(), correctedHtml, stringifyContent);
-        aMapper.insert(article);
+        Article article = new Article(null, requestDto.getBoardId(), null,false, 0, requestDto.getTitle(), requestDto.getContent(), stringifyContent);
+        int successNum = aMapper.insert(article) ;
+        return new ResponseEntity<>(successNum + "개 레코드가 성공적으로 저장되었습니다", HttpStatus.OK);
     }
 
     @Transactional
     public ArticleResponseDto retrieveArticle(Long id) {
         Article article = aMapper.getById(id);
+        int viewCountUpdate = article.getViewCount()+1;
+        aMapper.updateViewCount(id,viewCountUpdate);
         String boardName = bMapper.getById(article.getBoardId()).getNameKo();
         Document doc = Jsoup.parse(article.getContentHtml());
         Elements imgs = doc.getElementsByTag("img");
@@ -52,7 +53,7 @@ public class ArticleService {
                 stringifyImgs.add(img.attr("src"));
             }
         }
-        return new ArticleResponseDto(article, stringifyImgs, boardName);
+        return new ArticleResponseDto(article, viewCountUpdate, stringifyImgs, boardName);
     }
 
     public List<ArticleListResponseDto> getAll() {
@@ -69,5 +70,10 @@ public class ArticleService {
             responseDtos.add(responseDto);
         }
         return responseDtos;
+    }
+
+    public ResponseEntity<String> deleteArticle(Long id) {
+        aMapper.deleteById(id);
+        return new ResponseEntity<>("정상적으로 삭제되었습니다", HttpStatus.OK);
     }
 }

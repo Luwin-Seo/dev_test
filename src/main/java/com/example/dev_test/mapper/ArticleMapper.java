@@ -9,10 +9,14 @@ import java.util.List;
 @Mapper
 public interface ArticleMapper {
 
-    @Insert("INSERT INTO cms__article(board_id, is_pinned, view_count, title, content_html, content_string) VALUES(#{article.boardId}, #{article.isPinned}, #{article.viewCount}, #{article.title}, #{article.contentHtml}, #{article.contentString})")
+    @Insert("INSERT INTO cms__article(board_id, is_pinned, view_count, title, content_html, content_string) " +
+            "VALUES(#{article.boardId}, #{article.isPinned}, #{article.viewCount}, #{article.title}, #{article.contentHtml}, #{article.contentString})")
     int insert(@Param("article")Article article);
 
-    @Select("SELECT * FROM cms__article WHERE id = #{id}")
+    @Update("UPDATE cms__article SET view_count = #{viewCount} WHERE article_id = #{id}")
+    int updateViewCount(@Param("id") Long id, @Param("viewCount") int viewCount);
+
+    @Select("SELECT * FROM cms__article WHERE article_id = #{id}")
     @Results(id = "ArticleMap", value = {
             @Result(property = "id", column = "article_id"),
             @Result(property = "title", column = "title"),
@@ -26,4 +30,6 @@ public interface ArticleMapper {
     @ResultMap("ArticleMap")
     List<Article> getList();
 
+    @Delete("DELETE * FROM cms__article WHERE article_id = #{id}")
+    void deleteById(@Param("id") Long id);
 }
