@@ -25,18 +25,13 @@ public class ArticleController {
         return null;
     }
 
-    @GetMapping("/{boardId}/article/{id}")
-    public ResponseEntity<ArticleResponseDto> retrieveArticle (@RequestParam Long id) {
-        return null;
-    }
-
-    @DeleteMapping("/{boardId}/article/{id}")
-    public ResponseEntity deleteArticle (@PathVariable Long id) {
-        return null;
+    @GetMapping("/article/{id}")
+    public ArticleResponseDto retrieveArticle (@PathVariable Long id) {
+        return articleService.retrieveArticle(id);
     }
 
     @GetMapping("/articles")
-    public ResponseEntity<List<ArticleListResponseDto>> getList () {
-        return null;
+    public List<ArticleListResponseDto> getAll() {
+        return articleService.getAll();
     }
 }

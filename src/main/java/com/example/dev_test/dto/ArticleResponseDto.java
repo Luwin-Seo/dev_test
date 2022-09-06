@@ -1,6 +1,9 @@
 package com.example.dev_test.dto;
 
-import java.time.LocalDateTime;
+import com.example.dev_test.model.Article;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 public class ArticleResponseDto {
     private Long id;
@@ -8,20 +11,19 @@ public class ArticleResponseDto {
     private String contentHtml;
     private int viewCount;
     private boolean isPinned;
-    private LocalDateTime createdDatetime;
+    private Timestamp createdDatetime;
+    private List<String> imgs;
+    private String boardName;
 
-    public ArticleResponseDto(Long id,
-                              String title,
-                              String contentHtml,
-                              int viewCount,
-                              boolean isPinned,
-                              LocalDateTime createdDatetime) {
-        this.id = id;
-        this.title = title;
-        this.contentHtml = contentHtml;
-        this.viewCount = viewCount;
-        this.isPinned = isPinned;
-        this.createdDatetime = createdDatetime;
+    public ArticleResponseDto(Article article, List<String> imgs, String boardName) {
+        this.id = article.getId();
+        this.title = article.getTitle();
+        this.contentHtml = article.getContentHtml();
+        this.viewCount = article.getViewCount();
+        this.isPinned = article.isPinned();
+        this.createdDatetime = article.getCreatedDatetime();
+        this.imgs = imgs;
+        this.boardName = boardName;
     }
 
     public Long getId() {
@@ -44,8 +46,16 @@ public class ArticleResponseDto {
         return isPinned;
     }
 
-    public LocalDateTime getCreatedDatetime() {
+    public Timestamp getCreatedDatetime() {
         return createdDatetime;
+    }
+
+    public List<String> getImgs() {
+        return imgs;
+    }
+
+    public String getBoardName() {
+        return boardName;
     }
 
     public void setId(Long id) {
@@ -66,5 +76,17 @@ public class ArticleResponseDto {
 
     public void setPinned(boolean pinned) {
         isPinned = pinned;
+    }
+
+    public void setCreatedDatetime(Timestamp createdDatetime) {
+        this.createdDatetime = createdDatetime;
+    }
+
+    public void setImgs(List<String> imgs) {
+        this.imgs = imgs;
+    }
+
+    public void setBoardName(String boardName) {
+        this.boardName = boardName;
     }
 }

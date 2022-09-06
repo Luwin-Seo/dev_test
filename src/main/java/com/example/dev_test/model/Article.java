@@ -1,24 +1,22 @@
 package com.example.dev_test.model;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Article {
     private Long id;
     private Long boardId;
-    private LocalDateTime createdDatetime;
+    private Timestamp createdDatetime;
     private boolean isPinned;
     private int viewCount;
     private String title;
     private String contentHtml;
     private String contentString;
 
-    public Article(Long boardId,
-                   boolean isPinned,
-                   int viewCount,
-                   String title,
-                   String contentHtml,
-                   String contentString) {
+    public Article(Long id, Long boardId, Timestamp createdDatetime, boolean isPinned, int viewCount, String title, String contentHtml, String contentString) {
+        this.id = id;
         this.boardId = boardId;
+        this.createdDatetime = createdDatetime;
         this.isPinned = isPinned;
         this.viewCount = viewCount;
         this.title = title;
@@ -34,7 +32,7 @@ public class Article {
         return boardId;
     }
 
-    public LocalDateTime getCreatedDatetime() {
+    public Timestamp getCreatedDatetime() {
         return createdDatetime;
     }
 
@@ -62,7 +60,7 @@ public class Article {
         this.boardId = boardId;
     }
 
-    public void setCreatedDatetime(LocalDateTime createdDatetime) {
+    public void setCreatedDatetime(Timestamp createdDatetime) {
         this.createdDatetime = createdDatetime;
     }
 

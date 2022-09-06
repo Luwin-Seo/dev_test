@@ -1,5 +1,8 @@
 package com.example.dev_test.dto;
 
+import com.example.dev_test.model.Article;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class ArticleListResponseDto {
@@ -7,18 +10,15 @@ public class ArticleListResponseDto {
     private String title;
     private int viewCount;
     private boolean isPinned;
-    private LocalDateTime createdDatetime;
+    private Timestamp createdDatetime;
+    private String image;
 
-    public ArticleListResponseDto(Long id,
-                              String title,
-                              int viewCount,
-                              boolean isPinned,
-                              LocalDateTime createdDatetime) {
-        this.id = id;
-        this.title = title;
-        this.viewCount = viewCount;
-        this.isPinned = isPinned;
-        this.createdDatetime = createdDatetime;
+    public ArticleListResponseDto(Article article) {
+        this.id = article.getId();
+        this.title = article.getTitle();
+        this.viewCount = article.getViewCount();
+        this.isPinned = article.isPinned();
+        this.createdDatetime = article.getCreatedDatetime();
     }
 
     public Long getId() {
@@ -37,12 +37,12 @@ public class ArticleListResponseDto {
         return isPinned;
     }
 
-    public LocalDateTime getCreatedDatetime() {
+    public Timestamp getCreatedDatetime() {
         return createdDatetime;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getImage() {
+        return image;
     }
 
     public void setTitle(String title) {
@@ -55,5 +55,9 @@ public class ArticleListResponseDto {
 
     public void setPinned(boolean pinned) {
         isPinned = pinned;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
