@@ -4,6 +4,7 @@ import com.example.dev_test.dto.ArticleListResponseDto;
 import com.example.dev_test.model.Article;
 import org.apache.ibatis.annotations.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Mapper
@@ -14,7 +15,7 @@ public interface ArticleMapper {
     int insert(@Param("article")Article article);
 
     @Update("UPDATE cms__article SET view_count = #{viewCount} WHERE article_id = #{id}")
-    int updateViewCount(@Param("id") Long id, @Param("viewCount") int viewCount);
+    void updateViewCount(@Param("id") Long id, @Param("viewCount") int viewCount);
 
     @Select("SELECT * FROM cms__article WHERE article_id = #{id}")
     @Results(id = "ArticleMap", value = {
@@ -37,7 +38,7 @@ public interface ArticleMapper {
     @ResultMap("ArticleMap")
     List<Article> getListByName(@Param("boardName") String boardName);
 
-    @Select("SELECT * FROM cms__article WHERE name_ko = #{boardName}")
+    @Select("SELECT * FROM cms__article WHERE created_datetime >= #{startTime} AND created_datetime <= #{endTime}")
     @ResultMap("ArticleMap")
-    List<Article> getListByCreatedDatetime(@Param("boardName") String boardName);
+    List<Article> getListByCreatedDatetime(@Param("startTime") Timestamp startTime, @Param("endTime") Timestamp endTime);
 }

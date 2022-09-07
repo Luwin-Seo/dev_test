@@ -3,8 +3,8 @@ package com.example.dev_test.controller;
 import com.example.dev_test.dto.ArticleListResponseDto;
 import com.example.dev_test.dto.ArticleRequestDto;
 import com.example.dev_test.dto.ArticleResponseDto;
+import com.example.dev_test.dto.DatetimeRequestDto;
 import com.example.dev_test.service.ArticleService;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,8 +40,13 @@ public class ArticleController {
         return articleService.deleteArticle(id);
     }
 
-    @GetMapping
+    @GetMapping("/articles/search")
     public List<ArticleListResponseDto> getArticlesByName(@RequestParam String boardName) {
         return articleService.getArticlesByName(boardName);
+    }
+
+    @GetMapping("/articles/period")
+    public List<ArticleListResponseDto> getArticlesByDatetime(@RequestParam DatetimeRequestDto requestDto) {
+        return articleService.getArticlesByDatetime(requestDto);
     }
 }

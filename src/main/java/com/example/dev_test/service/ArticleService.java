@@ -3,6 +3,7 @@ package com.example.dev_test.service;
 import com.example.dev_test.dto.ArticleListResponseDto;
 import com.example.dev_test.dto.ArticleRequestDto;
 import com.example.dev_test.dto.ArticleResponseDto;
+import com.example.dev_test.dto.DatetimeRequestDto;
 import com.example.dev_test.mapper.ArticleMapper;
 import com.example.dev_test.mapper.BoardMapper;
 import com.example.dev_test.model.Article;
@@ -34,7 +35,15 @@ public class ArticleService {
         Document doc = Jsoup.parse(requestDto.getContent());
         String stringifyContent = doc.text();
         System.out.println(stringifyContent + "문자열로 전환된 HTML");
-        Article article = new Article(null, requestDto.getBoardId(), null,false, 0, requestDto.getTitle(), requestDto.getContent(), stringifyContent);
+        Article article = new Article(
+                null,
+                requestDto.getBoardId(),
+                null,
+                false,
+                0,
+                requestDto.getTitle(),
+                requestDto.getContent(),
+                stringifyContent);
         int successNum = aMapper.insert(article) ;
         return new ResponseEntity<>(successNum + "개 레코드가 성공적으로 저장되었습니다", HttpStatus.OK);
     }
@@ -65,7 +74,6 @@ public class ArticleService {
             if(img != null) {
                 responseDto.setImage(img.attr("src"));
             }
-
             responseDtos.add(responseDto);
         }
         return responseDtos;
@@ -82,5 +90,9 @@ public class ArticleService {
 
     public List<ArticleListResponseDto> getArticlesByName(String boardName) {
         return dtosMaker(aMapper.getListByName(boardName));
+    }
+
+    public List<ArticleListResponseDto> getArticlesByDatetime(DatetimeRequestDto requestDto) {
+        return dtosMaker(aMapper.getListByCreatedDatetime(requestDto.getStartTime(), requestDto.getEndTime()));
     }
 }
