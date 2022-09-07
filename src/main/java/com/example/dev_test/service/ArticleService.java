@@ -3,10 +3,10 @@ package com.example.dev_test.service;
 import com.example.dev_test.dto.ArticleListResponseDto;
 import com.example.dev_test.dto.ArticleRequestDto;
 import com.example.dev_test.dto.ArticleResponseDto;
-import com.example.dev_test.dto.DatetimeRequestDto;
 import com.example.dev_test.mapper.ArticleMapper;
 import com.example.dev_test.mapper.BoardMapper;
 import com.example.dev_test.model.Article;
+import com.example.dev_test.model.Board;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.http.HttpStatus;
@@ -16,8 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -67,14 +72,17 @@ public class ArticleService {
 
     public List<ArticleListResponseDto> dtosMaker(List<Article> articles) {
         List<ArticleListResponseDto> responseDtos = new ArrayList<>();
-        for (Article article : articles) {
-            ArticleListResponseDto responseDto = new ArticleListResponseDto(article);
-            Document doc = Jsoup.parse(article.getContentHtml());
-            Element img = doc.getElementsByTag("img").first();
-            if(img != null) {
-                responseDto.setImage(img.attr("src"));
+
+        if (articles.size() != 0) {
+            for (Article article : articles) {
+                ArticleListResponseDto responseDto = new ArticleListResponseDto(article);
+                Document doc = Jsoup.parse(article.getContentHtml());
+                Element img = doc.getElementsByTag("img").first();
+                if(img != null) {
+                    responseDto.setImage(img.attr("src"));
+                }
+                responseDtos.add(responseDto);
             }
-            responseDtos.add(responseDto);
         }
         return responseDtos;
     }
@@ -89,10 +97,17 @@ public class ArticleService {
     }
 
     public List<ArticleListResponseDto> getArticlesByName(String boardName) {
-        return dtosMaker(aMapper.getListByName(boardName));
+        List<Article> preProccessList = aMapper.getList();
+        List<Article> postProccessList = preProccessList.stream().filter(
+                A -> bMapper.getById(A.getBoardId()).getNameKo().contains(boardName)).toList();
+        return dtosMaker(postProccessList);
     }
 
-    public List<ArticleListResponseDto> getArticlesByDatetime(DatetimeRequestDto requestDto) {
-        return dtosMaker(aMapper.getListByCreatedDatetime(requestDto.getStartTime(), requestDto.getEndTime()));
+    public List<ArticleListResponseDto> getArticlesByDatetime(String start, String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        Timestamp startTime = Timestamp.valueOf(startDate.atStartOfDay());
+        Timestamp endTime = Timestamp.valueOf(endDate.atStartOfDay());
+        return dtosMaker(aMapper.getListByCreatedDatetime(startTime, endTime));
     }
 }

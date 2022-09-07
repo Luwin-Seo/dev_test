@@ -1,7 +1,6 @@
 package com.example.dev_test.model;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class Article {
     private Long id;

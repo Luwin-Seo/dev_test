@@ -15,6 +15,9 @@ public class ArticleResponseDto {
     private List<String> imgs;
     private String boardName;
 
+    public ArticleResponseDto() {
+    }
+
     public ArticleResponseDto(Article article, int viewCount, List<String> imgs, String boardName) {
         this.id = article.getId();
         this.title = article.getTitle();

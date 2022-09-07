@@ -5,6 +5,9 @@ public class ArticleRequestDto {
     private String title;
     private String content;
 
+    public ArticleRequestDto() {
+    }
+
     public ArticleRequestDto(Long boardId, String title, String content) {
         this.boardId = boardId;
         this.title = title;

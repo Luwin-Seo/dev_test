@@ -3,11 +3,12 @@ package com.example.dev_test.controller;
 import com.example.dev_test.dto.ArticleListResponseDto;
 import com.example.dev_test.dto.ArticleRequestDto;
 import com.example.dev_test.dto.ArticleResponseDto;
-import com.example.dev_test.dto.DatetimeRequestDto;
 import com.example.dev_test.service.ArticleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -46,7 +47,7 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/period")
-    public List<ArticleListResponseDto> getArticlesByDatetime(@RequestParam DatetimeRequestDto requestDto) {
-        return articleService.getArticlesByDatetime(requestDto);
+    public List<ArticleListResponseDto> getArticlesByDatetime(@RequestParam String start, @RequestParam String end) {
+        return articleService.getArticlesByDatetime(start, end);
     }
 }

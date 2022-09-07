@@ -1,6 +1,5 @@
 package com.example.dev_test.mapper;
 
-import com.example.dev_test.dto.ArticleListResponseDto;
 import com.example.dev_test.model.Article;
 import org.apache.ibatis.annotations.*;
 
@@ -33,10 +32,6 @@ public interface ArticleMapper {
 
     @Delete("DELETE * FROM cms__article WHERE article_id = #{id}")
     void deleteById(@Param("id") Long id);
-
-    @Select("SELECT * FROM cms__article WHERE name_ko = #{boardName}")
-    @ResultMap("ArticleMap")
-    List<Article> getListByName(@Param("boardName") String boardName);
 
     @Select("SELECT * FROM cms__article WHERE created_datetime >= #{startTime} AND created_datetime <= #{endTime}")
     @ResultMap("ArticleMap")

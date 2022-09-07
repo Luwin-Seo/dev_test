@@ -1,9 +1,7 @@
 package com.example.dev_test.dto;
 
 import com.example.dev_test.model.Article;
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class ArticleListResponseDto {
     private Long id;
@@ -12,6 +10,9 @@ public class ArticleListResponseDto {
     private boolean isPinned;
     private Timestamp createdDatetime;
     private String image;
+
+    public ArticleListResponseDto() {
+    }
 
     public ArticleListResponseDto(Article article) {
         this.id = article.getId();
