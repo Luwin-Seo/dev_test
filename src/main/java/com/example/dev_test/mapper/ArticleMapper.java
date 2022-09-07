@@ -32,4 +32,12 @@ public interface ArticleMapper {
 
     @Delete("DELETE * FROM cms__article WHERE article_id = #{id}")
     void deleteById(@Param("id") Long id);
+
+    @Select("SELECT * FROM cms__article WHERE name_ko = #{boardName}")
+    @ResultMap("ArticleMap")
+    List<Article> getListByName(@Param("boardName") String boardName);
+
+    @Select("SELECT * FROM cms__article WHERE name_ko = #{boardName}")
+    @ResultMap("ArticleMap")
+    List<Article> getListByCreatedDatetime(@Param("boardName") String boardName);
 }

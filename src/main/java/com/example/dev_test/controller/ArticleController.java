@@ -32,11 +32,16 @@ public class ArticleController {
 
     @GetMapping("/articles")
     public List<ArticleListResponseDto> getAll() {
-        return articleService.getAll();
+        return articleService.getAllArticles();
     }
 
     @DeleteMapping("/article")
     public ResponseEntity<String> deleteArticle(@RequestParam Long id) {
         return articleService.deleteArticle(id);
+    }
+
+    @GetMapping
+    public List<ArticleListResponseDto> getArticlesByName(@RequestParam String boardName) {
+        return articleService.getArticlesByName(boardName);
     }
 }

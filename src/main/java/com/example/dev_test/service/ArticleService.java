@@ -56,8 +56,7 @@ public class ArticleService {
         return new ArticleResponseDto(article, viewCountUpdate, stringifyImgs, boardName);
     }
 
-    public List<ArticleListResponseDto> getAll() {
-        List<Article> articles= aMapper.getList();
+    public List<ArticleListResponseDto> dtosMaker(List<Article> articles) {
         List<ArticleListResponseDto> responseDtos = new ArrayList<>();
         for (Article article : articles) {
             ArticleListResponseDto responseDto = new ArticleListResponseDto(article);
@@ -72,8 +71,16 @@ public class ArticleService {
         return responseDtos;
     }
 
+    public List<ArticleListResponseDto> getAllArticles() {
+        return dtosMaker(aMapper.getList());
+    }
+
     public ResponseEntity<String> deleteArticle(Long id) {
         aMapper.deleteById(id);
         return new ResponseEntity<>("정상적으로 삭제되었습니다", HttpStatus.OK);
+    }
+
+    public List<ArticleListResponseDto> getArticlesByName(String boardName) {
+        return dtosMaker(aMapper.getListByName(boardName));
     }
 }
