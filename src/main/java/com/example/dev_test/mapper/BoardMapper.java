@@ -1,10 +1,7 @@
 package com.example.dev_test.mapper;
 
-import com.example.dev_test.model.Article;
 import com.example.dev_test.model.Board;
 import org.apache.ibatis.annotations.*;
-
-import java.util.List;
 
 @Mapper
 public interface BoardMapper {

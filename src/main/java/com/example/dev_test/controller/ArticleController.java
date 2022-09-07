@@ -7,8 +7,6 @@ import com.example.dev_test.service.ArticleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController

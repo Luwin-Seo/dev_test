@@ -6,7 +6,6 @@ import com.example.dev_test.dto.ArticleResponseDto;
 import com.example.dev_test.mapper.ArticleMapper;
 import com.example.dev_test.mapper.BoardMapper;
 import com.example.dev_test.model.Article;
-import com.example.dev_test.model.Board;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.http.HttpStatus;
@@ -18,12 +17,8 @@ import org.jsoup.nodes.Document;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 
 @Service
 public class ArticleService {
@@ -97,10 +92,10 @@ public class ArticleService {
     }
 
     public List<ArticleListResponseDto> getArticlesByName(String boardName) {
-        List<Article> preProccessList = aMapper.getList();
-        List<Article> postProccessList = preProccessList.stream().filter(
+        List<Article> preProcessList = aMapper.getList();
+        List<Article> postProcessList = preProcessList.stream().filter(
                 A -> bMapper.getById(A.getBoardId()).getNameKo().contains(boardName)).toList();
-        return dtosMaker(postProccessList);
+        return dtosMaker(postProcessList);
     }
 
     public List<ArticleListResponseDto> getArticlesByDatetime(String start, String end) {

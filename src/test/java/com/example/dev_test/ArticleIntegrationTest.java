@@ -5,7 +5,6 @@ import com.example.dev_test.dto.ArticleRequestDto;
 import com.example.dev_test.dto.ArticleResponseDto;
 import com.example.dev_test.mapper.ArticleMapper;
 import com.example.dev_test.mapper.BoardMapper;
-import com.example.dev_test.model.Article;
 import com.example.dev_test.model.Board;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -37,10 +34,6 @@ public class ArticleIntegrationTest {
 
     private HttpHeaders headers;
     private ObjectMapper mapper = new ObjectMapper();
-
-    private ArticleRequestDto articleRequestDto;
-    private ArticleResponseDto articleResponseDto;
-    private ArticleListResponseDto articleListResponseDto;
 
     @BeforeEach
     public void setup() {
