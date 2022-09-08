@@ -30,7 +30,7 @@ public interface ArticleMapper {
     @ResultMap("ArticleMap")
     List<Article> getList();
 
-    @Delete("DELETE * FROM cms__article WHERE article_id = #{id}")
+    @Delete("DELETE FROM cms__article WHERE article_id = #{id}")
     void deleteById(@Param("id") Long id);
 
     @Select("SELECT * FROM cms__article WHERE created_datetime >= #{startTime} AND created_datetime <= #{endTime}")

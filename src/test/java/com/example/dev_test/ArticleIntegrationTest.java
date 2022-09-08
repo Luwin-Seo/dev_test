@@ -259,4 +259,16 @@ public class ArticleIntegrationTest {
             }
         }
     }
+
+    @Test
+    @Order(7)
+    @DisplayName("Article 삭제")
+    void test7() throws JsonProcessingException {
+
+        int before = aMapper.getList().size();
+        restTemplate.delete("/board/article?id=1");
+        int after = aMapper.getList().size();
+
+        assertEquals(before - 1, after);
+    }
 }
